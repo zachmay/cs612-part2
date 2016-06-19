@@ -1,0 +1,3 @@
+#!/bin/bash
+
+gcov -a $1 

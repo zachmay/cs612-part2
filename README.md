@@ -20,4 +20,6 @@ $ virt/bin/pip install -r dependencies.txt
 
 
 
+### References
 
+http://randomthoughts.greyhats.it/2015/02/fast-coverage-analysis-for-binary.html

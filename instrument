@@ -1,0 +1,3 @@
+#!/bin/bash
+
+clang -fprofile-arcs -ftest-coverage -o $1-instr $1.c

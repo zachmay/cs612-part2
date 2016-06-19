@@ -1,1 +1,5 @@
 virt/
+experiment*/*-instr
+experiment*/*.gcda
+experiment*/*.gcno
+experiment*/*.gcov
