@@ -3,3 +3,4 @@ experiment*/*-instr
 experiment*/*.gcda
 experiment*/*.gcno
 experiment*/*.gcov
+**/.DS_Store
