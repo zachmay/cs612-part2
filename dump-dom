@@ -1,3 +1,0 @@
-#!/bin/bash
-
-clang -fsyntax-only -Xclang -analyze -Xclang -analyzer-checker=debug.DumpDominators $1

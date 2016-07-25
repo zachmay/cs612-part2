@@ -1,6 +1,7 @@
 virt/
-experiment*/*-instr
-experiment*/*.gcda
-experiment*/*.gcno
-experiment*/*.gcov
+**/*-instr
+**/*.gcda
+**/*.gcno
+**/*.gcov
 **/.DS_Store
+**/*.pyc

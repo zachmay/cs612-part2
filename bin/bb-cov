@@ -1,0 +1,15 @@
+#!/bin/bash
+
+LLVM=/Users/zmay/Projects/clang-dev/llvm
+BIN=/Users/zmay/Projects/clang-dev/build/bin
+LIB=/Users/zmay/Projects/clang-dev/build/lib
+
+$BIN/clang -g $1 -fsanitize=address -fsanitize-coverage=bb
+
+ASAN_OPTIONS=coverage=1 ./a.out
+
+cov=`ls -t a.out*sancov | head -1`
+
+$LLVM/projects/compiler-rt/lib/sanitizer_common/scripts/sancov.py print $cov 2> /dev/null | $BIN/llvm-symbolizer --obj a.out
+
+

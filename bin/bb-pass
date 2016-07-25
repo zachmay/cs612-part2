@@ -1,0 +1,7 @@
+#!/bin/bash
+
+BIN=/Users/zmay/Projects/clang-dev/build/bin
+LIB=/Users/zmay/Projects/clang-dev/build/lib
+
+$BIN/clang -g -S -emit-llvm $1 -o dump.ll
+$BIN/opt -load $LIB/LLVMZach.dylib -zach dump.ll
