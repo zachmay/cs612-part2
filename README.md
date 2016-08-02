@@ -9,7 +9,7 @@ enable it.
 
 ```
 $ virtualenv virt
-$ source virt/bin/activat
+$ source virt/bin/activate
 ```
 
 Now, use the virtual environment's version of `pip` to intall the package dependencies:
