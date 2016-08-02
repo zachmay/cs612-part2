@@ -1,7 +1,9 @@
 import networkx as nx
 
 edges = \
-    [ ("B1", "B0")
+    [ ("E", "B29") # Add an entry node E, this seems to help.
+    , ("B0", "X")  # Add an exit node X
+    , ("B1", "B0")
     , ("B2", "B1")
     , ("B3", "B1")
     , ("B4", "B3")
@@ -59,15 +61,16 @@ edges = \
 #     , (5, 6)
 #     ]
 
-entry = "B0" # The exit node, but it's the entry of the inverted CFG.
+entry = "E" 
+exit = "X"
 
 def dependencies(g, entry):
-    dominators = nx.immediate_dominators(inv_cfg, entry)
+    dominators = nx.immediate_dominators(g, entry)
     deps = []
-    for n in inv_cfg.nodes():
-        for m in inv_cfg.nodes():
+    for n in g.nodes():
+        for m in g.nodes():
             ifdom = dominators[m]
-            if any([ifdom not in path for path in nx.all_simple_paths(inv_cfg, n, m)]):
+            if any([ifdom not in path for path in nx.all_simple_paths(g, n, m)]):
                 deps.append((m, n))
 
     return deps
@@ -81,8 +84,11 @@ def transitive_reduction(g):
                     result.remove_edge(x, y)
     return result
 
+cfg = nx.DiGraph(edges)
 inv_cfg = nx.DiGraph(map(lambda (x,y): (y,x), edges))
-deps = dependencies(inv_cfg, entry)
-cdg = nx.DiGraph(deps)
 
-nx.drawing.nx_pydot.write_dot(cdg, 'tritype.dot')
+cdg = nx.DiGraph(dependencies(cfg, entry))
+inv_cdg = nx.DiGraph(dependencies(inv_cfg, exit))
+
+nx.drawing.nx_pydot.write_dot(cdg, 'tritype.dot') # This seems to be the one that works.
+nx.drawing.nx_pydot.write_dot(inv_cdg, 'tritype-inv.dot')
