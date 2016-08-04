@@ -16,17 +16,28 @@ class Runner:
 
         self.executablePath = os.path.join('.', self.workPath, self.binaryName + '-instr')
         self.coverageDataFilePath = self.binaryName + '.gcda'
-        self.coverageReportingFilePath = self.binaryName + '.c.gcov'
+        self.coverageReportingFilePath = os.path.join(workPath, self.binaryName + '.c.gcov')
+
+        print "Executable path:", self.executablePath
+        print "Coverage data path:", self.coverageDataFilePath
+        print "Coverage reporting path:", self.coverageReportingFilePath
 
     # Run the instrumented binary, process the coverage data into a useful format
     # and load the result so it can be queried for block coverage.
     def run(self, *inputs):
         self.cleanup()
+        self.runInput(inputs)
+        self.fileContents = self.dumpCoverageReporting()
+
+    def runInput(self, *inputs):
         process = subprocess.Popen([self.executablePath], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         inputString = "\n".join(map(str, inputs))
         process.communicate(inputString)
+
+    def dumpCoverageReporting(self):
         subprocess.call([self.coverageToolPath, 'gcov', '-a', self.binaryName], stdout=subprocess.PIPE)
-        self.fileContents = list(open(self.coverageReportingFilePath))
+        return list(open(self.coverageReportingFilePath))
+
 
     # Reset the class for a subsequent run of the instrumented binary.
     def cleanup(self):
@@ -64,3 +75,5 @@ class Runner:
             else:
                 return value
         return value
+
+    

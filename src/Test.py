@@ -35,7 +35,7 @@ class Test (Experiment):
 
 def main():
     workPath = '.'
-    binaryName = 'pargas'
+    binaryName = 'test'
     coverageToolPath = '/Users/zmay/Projects/clang-dev/build/bin/llvm-cov'
     runner = Runner(workPath, binaryName, coverageToolPath)
     t = Test(runner)
