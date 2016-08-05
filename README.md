@@ -46,12 +46,10 @@ Now, use `pip` to intall the package dependencies into your virtual environment:
 pip install -r dependencies.txt
 ```
 
-### LLVM
+### Clang/LLVM
 
-To perform the binary instrumentation and coverage analysis, you will need to install Clang/LLVM.
-
-
-I had to build Clang and LLVM from source and some files still reference my local paths and may need to be updated.
+To perform the binary instrumentation and coverage analysis, you will need to install Clang/LLVM version 3.9.0.
+I had built these tools from source following [these instructions](http://clang.llvm.org/get_started.html).
 
 ### Running the Tritype Experiment
 
