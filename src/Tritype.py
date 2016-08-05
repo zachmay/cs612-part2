@@ -9,29 +9,26 @@ class Tritype (Experiment):
         Experiment.__init__(self, runner)
 
         runner.paths = \
-            [ ["B29", "B17", "B15", "B1"] ]
-
-#            [ ["B29", "B16", "B15", "B1"]
-#            , ["B29", "B17", "B15", "B1"]
-#            , ["B29", "B14", "B1"]
-#            , ["B29", "B12", "B1"]
-#            , ["B29", "B13", "B1"]
-#            , ["B29", "B11", "B1"]
-#            , ["B29", "B18", "B1"]
-#            , ["B29", "B28", "B26", "B1"]
-#            , ["B29", "B27", "B26", "B1"]
-#            , ["B29", "B20", "B19", "B1"]
-#            , ["B29", "B25", "B1"]
-#            , ["B29", "B10", "B8", "B1"]
-#            , ["B29", "B24", "B23", "B1"]
-#            , ["B29", "B22", "B21", "B1"]
-#            , ["B29", "B6", "B1"]
-#            , ["B29", "B4", "B2", "B1"]
-#            , ["B29", "B3", "B1"]
-#            , ["B29", "B7", "B5", "B1"]
-#            , ["B29", "B9", "B1"]
-#            ]
-
+           [ ["B29", "B16", "B15", "B1"]
+           , ["B29", "B17", "B15", "B1"]
+           , ["B29", "B14", "B1"]
+           , ["B29", "B12", "B1"]
+           , ["B29", "B13", "B1"]
+           , ["B29", "B11", "B1"]
+           , ["B29", "B18", "B1"]
+           , ["B29", "B28", "B26", "B1"]
+           , ["B29", "B27", "B26", "B1"]
+           , ["B29", "B20", "B19", "B1"]
+           , ["B29", "B25", "B1"]
+           , ["B29", "B10", "B8", "B1"]
+           , ["B29", "B24", "B23", "B1"]
+           , ["B29", "B22", "B21", "B1"]
+           , ["B29", "B6", "B1"]
+           , ["B29", "B4", "B2", "B1"]
+           , ["B29", "B3", "B1"]
+           , ["B29", "B7", "B5", "B1"]
+           , ["B29", "B9", "B1"]
+           ]
 
         runner.lineMap = \
             { "B29": 46
@@ -66,8 +63,8 @@ class Tritype (Experiment):
             , "B0": 122
             }
 
-        self.minInput = 1
-        self.maxInput = 5 
+        self.minInput = -10
+        self.maxInput = 10 
 
     def individual(self):
         return tools.initRepeat(creator.Individual, lambda: random.randint(self.minInput, self.maxInput), 3)
@@ -76,10 +73,7 @@ class Tritype (Experiment):
         return tools.initRepeat(list, self.toolbox.individual, n)
 
 def main():
-    workPath = '.'
-    binaryName = 'tritype'
-    coverageToolPath = '/Users/zmay/Projects/clang-dev/build/bin/llvm-cov'
-    runner = Runner(workPath, binaryName, coverageToolPath)
+    runner = Runner('tritype')
     t = Tritype(runner)
     results = t.runAll()
     print "GA complete on all paths, running all inputs..."

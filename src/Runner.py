@@ -3,20 +3,23 @@ import re
 import subprocess
 
 class Runner:
-    def __init__(self, workPath, binaryName, coverageToolPath, paths=None, lineMap=None):
+    def __init__(self, binaryName=None, paths=None, lineMap=None):
         # This regex matches lines in the coverage reporting that indicate a basic
         # block was not covered.
         self.uncoveredMatcher = re.compile(' *\$\$\$\$\$:')
+
+        self.binaryName = binaryName
         self.paths = paths
         self.lineMap = lineMap
 
-        self.workPath = workPath
-        self.binaryName = binaryName
-        self.coverageToolPath = coverageToolPath
+        if 'LLVM_DIR' in os.environ:
+            self.coverageToolPath = os.path.join(os.environ['LLVM_DIR'], 'llvm-cov')
+        else:
+            self.coverageToolPath = 'llvm-cov'
 
-        self.executablePath = os.path.join('.', self.workPath, self.binaryName + '-instr')
+        self.executablePath = os.path.join('.', self.binaryName + '-instr')
         self.coverageDataFilePath = self.binaryName + '.gcda'
-        self.coverageReportingFilePath = os.path.join(workPath, self.binaryName + '.c.gcov')
+        self.coverageReportingFilePath = self.binaryName + '.c.gcov'
 
         print "Executable path:", self.executablePath
         print "Coverage data path:", self.coverageDataFilePath
@@ -37,7 +40,6 @@ class Runner:
     def dumpCoverageReporting(self):
         subprocess.call([self.coverageToolPath, 'gcov', '-a', self.binaryName], stdout=subprocess.PIPE)
         return list(open(self.coverageReportingFilePath))
-
 
     # Reset the class for a subsequent run of the instrumented binary.
     def cleanup(self):
